@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>文献阅读笔记-To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA | 全世界的面我都吃一遍</title><meta name="author" content="i4mhmh,i4mhmh@outlook.com"><meta name="copyright" content="i4mhmh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="文章信息   作者：Azade Rezaeezade, Guilherme Perin, and Stjepan Picek   单位：Radboud University, The Netherlands; Delft University of Technology, The Netherlands   出处：[International Conference on Cryptology in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文献阅读笔记-To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA">
+<meta property="og:url" content="https://i4mhmh.cn/archives/f423d1e.html">
+<meta property="og:site_name" content="全世界的面我都吃一遍">
+<meta property="og:description" content="文章信息   作者：Azade Rezaeezade, Guilherme Perin, and Stjepan Picek   单位：Radboud University, The Netherlands; Delft University of Technology, The Netherlands   出处：[International Conference on Cryptology in">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i4mhmh.cn/img/image-20231130222220978.png">
+<meta property="article:published_time" content="2023-12-03T14:20:11.000Z">
+<meta property="article:modified_time" content="2023-12-03T14:41:46.576Z">
+<meta property="article:author" content="i4mhmh">
+<meta property="article:tag" content="模型训练">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i4mhmh.cn/img/image-20231130222220978.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://i4mhmh.cn/archives/f423d1e.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '文献阅读笔记-To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-03 22:41:46'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="全世界的面我都吃一遍" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/t.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/../img/image-20231130222220978.png')"><nav id="nav"><span id="blog-info"><a href="/" title="全世界的面我都吃一遍"><span class="site-name">全世界的面我都吃一遍</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">文献阅读笔记-To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-12-03T14:20:11.000Z" title="发表于 2023-12-03 22:20:11">2023-12-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-03T14:41:46.576Z" title="更新于 2023-12-03 22:41:46">2023-12-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/">基于深度学习的侧信道攻击</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="文献阅读笔记-To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>文章信息</h1>
+<ul>
+<li>
+<p>作者：<strong>Azade Rezaeezade, Guilherme Perin, and Stjepan Picek</strong></p>
+</li>
+<li>
+<p>单位：<strong>Radboud University, The Netherlands; Delft University of Technology, The Netherlands</strong></p>
+</li>
+<li>
+<p>出处：[International Conference on Cryptology in Africa](<a target="_blank" rel="noopener" href="https://link.springer.com/conference/africacrypt">https://link.springer.com/conference/africacrypt</a> africacrypt) AFRICACRYPT 2022: <a target="_blank" rel="noopener" href="https://link.springer.com/book/10.1007/978-3-031-17433-9">Progress in Cryptology - AFRICACRYPT 2022</a>  pp 397–421</p>
+</li>
+<li>
+<p>标题：<strong>To Overfit, Or Not to Overfit: Improving the Performance of Deep Learning-based SCA</strong></p>
+</li>
+</ul>
+<h1>贡献</h1>
+<ol>
+<li>增加能量迹条数<strong>并不一定</strong>会增强模型泛化性</li>
+<li>模型在某一特定的超参下模型性能没有特别差，则可以添加能量迹来增强泛化能力。</li>
+</ol>
+<h1>文章内容</h1>
+<h2 id="过拟合欠拟合">过拟合欠拟合</h2>
+<h3 id="过拟合">过拟合</h3>
+<p>一句话，在训练数据上的拟合比测试集拟合性更高，即模型对训练集中的不重要信息敏感</p>
+<p>原因：训练样本单一，噪声数据占比过大，模型太复杂</p>
+<p>解决方法：正则化，加入Dropout层，Early stopping。Maghrebi[^1]等人的模型中添加了Dropout层防止训练过拟合</p>
+<p><strong>欠拟合</strong></p>
+<p>模型在训练集上效果就很差</p>
+<p>原因：</p>
+<h2 id="深度双下潜">深度双下潜</h2>
+<p>图1 （a）中展示了偏差、方差用来描述模型欠拟合、过拟合的概念，这里甜蜜点（Sweet Spot）可以看做训练集指标（准确率、LOSS。。。）最优点，在甜蜜点之前增大训练集模型性能会更好，过了这个点之后会在测试集上起相反的作用。右图则表示深度双下潜，一般认为在甜蜜点前后模型性能是单调变化的，但是这里存在一个插值点（Interpolation Point）即模型容量在该点处训练损失平均值降为0，该图说明在出现过拟合情况时，增大模型的容量会使得效果变好，甚至比在甜蜜点处的测试风险更低。</p>
+<p><img src="../img/image-20231201214046415.png" alt="图1 训练、测试风险曲线"></p>
+<p>对此，作者认为模型参数量与能量迹条数的调试情况应如下：</p>
+<ol>
+<li>欠参数状态：模型过小，增加训练集条数直到模型性能不再变化。</li>
+<li>过参数状态：模型过大，当增加训练集条数时可以改变模型所处的状态，继续添加。</li>
+<li>参数临界状态：    模型的容量与能量迹条数相当, 也就是达到了临界值（Critical Regime），增大模型容量会在短时间内导致模型效果变差，但是在达到插值点时（训练损失很少）会二次单向降低测试风险。</li>
+</ol>
+<p>在临界状态时，作者尝试增大训练集来寻找最佳点，但是更大的训练集也更需要更大的模型来拟合，增大模型参数量会导致插值点右移，因此作者指出在使用较少的数据训练固定大小的模型性能会更好。</p>
+<img src="../img/image-20231203160508607.png" alt="图2 DDDP原文解释" style="zoom:80%;" />
+<h2 id="侧信道过拟合">侧信道过拟合</h2>
+<p>准确率不能作为侧信道的泛化性评估指标，对此，作者对泛化性的计算公式如下：</p>
+<img src="../img/image-20231203161856464.png" alt="泛化指标公式" style="zoom:67%;" />
+<p>PS: Q是测试集大小，P是第i条能量迹对应的正确标签的概率，y就是对应label，$$y=Sbox(d \oplus k)$$</p>
+<p>这里将侧信道次优模型分为三种情况：</p>
+<ol>
+<li>模型过拟合（准确性接近随机猜测、验证损失持续增加）但是仍然可以正确恢复密钥，由于对大量能量迹进行学习，模型可以对大部分测试集数据进行识别，从而导致猜测熵收敛较快。</li>
+<li>模型接近过拟合（准确性持续提高、损失持续减少），可以恢复密钥，具备一定泛化性但并不是最佳泛化模型。</li>
+<li>模型接近或已经过拟合，且无法恢复密钥。</li>
+</ol>
+<h2 id="数据集">数据集</h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>能量迹条数</th>
+<th style="text-align:center">Label模型</th>
+<th>特征数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ASCAD Random Key</td>
+<td>300000</td>
+<td style="text-align:center"><img src="../img/image-20231201220957204.png" alt="image-20231201220957204" style="zoom:30%;" /></td>
+<td>250000（本文考虑1400个特征</td>
+</tr>
+<tr>
+<td>AES_HD</td>
+<td>50000</td>
+<td style="text-align:center"><img src="../img/image-20231201220938003.png" alt="image-20231201220938003" style="zoom:30%;" /></td>
+<td>1250</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td style="text-align:center"></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="攻击步骤">攻击步骤</h2>
+<ol>
+<li>网格搜索CNN、MLP超参 网格字典在文中第十页，太多了</li>
+<li>5w条能量迹训练，十折交叉验证计算猜测熵</li>
+<li>保留猜测熵为1的模型超参， 该类模型=”好模型“</li>
+<li>分析模acc、ge曲线， 区分如图3所示。</li>
+</ol>
+<img src="../img/image-20231201221203679.png" alt="图3 过拟合、趋于过拟合曲线图" style="zoom:67%;" />
+<ol start="5">
+<li>对”好模型“增加训练集条数重新训练，过拟合模型与泛化性较好的模型表现如图4所示。</li>
+</ol>
+<img src="../img/image-20231201221248528.png" alt="图4 过拟合与倾向过拟合模型猜测熵收敛曲线" style="zoom:67%;" />
+<p><strong>模型往往在增大训练集后泛化性会更好（除了在临界状态时前期增加能量迹会使模型出现偏差），这也是主观观点，也符合上面参数量介于临界状态时的解释。</strong></p>
+<h1>实验结果</h1>
+<h2 id="ASCAD数据集">ASCAD数据集</h2>
+<p>TN1-TN4是不同训练集被设置为5w、10w、15w、20w。Params那一列是不同的MLP模型。</p>
+<p>在表1中，（a）#6模型随着数据集增大，其猜测熵收敛更快。但是在#13中，可以看到在增加到20w与15w时，收敛曲线并无变化，这里模型参数量为<code>181409</code>能量迹条数在5w时准确性达到97%左右，在20w时下降到60%。按照<strong>梯度双下潜</strong>的说法，模型参数量正处于临界状态。但是仍然不能把所有的现象都按照梯度双下潜来证明，例如#4模型，在5w时准确性达45%，即欠拟合状态，还未达到梯度-偏差模型所述的甜蜜点Sweet Point，但是在增大数据集到10w，20w的时候猜测熵无法收敛到1，却在15w时获得了较好的收敛效果。</p>
+<img src="../img/image-20231201221408398.png" alt="表1 MLP" style="zoom:67%;" />
+<p><img src="../img/image-20231201221435070.png" alt="图5 增加数据集大小的效果"></p>
+<img src="../img/image-20231201221512074.png" alt="image-20231201221512074" style="zoom:67%;" />
+<p><img src="../img/image-20231201221531480.png" alt="CNN"></p>
+<h2 id="AES-HD数据集">AES_HD数据集</h2>
+<p><img src="../img/image-20231201221627303.png" alt="MLP"></p>
+<img src="../img/image-20231201221648654.png" alt="MLP with Dropout" style="zoom:67%;" />
+<img src="../img/image-20231201221716883.png" alt="更少的参数量对应模型效果" style="zoom:80%;" />
+<h1>总结</h1>
+<ol>
+<li>增大训练集并不一定能使模型泛化性增强。</li>
+<li>欠参数化模型在噪声较少的数据集上要比临界以及过参数化模型性能好。</li>
+<li>过参数化模型可以训练的容量更多，就一般情况下猜测熵收敛到1的所需能量迹条数更多。</li>
+<li>过参数化模型更有可能包括错误的假设。</li>
+<li>在临界状态的模型更容易受到超参、训练数据量的影响（不稳定）。</li>
+<li>超参数比数据集大小在模型上的影响占的比重更大</li>
+</ol>
+<p>作者证实了单独增大训练集并不能保证一定会增强模型的性能，且即使是使用Dropout等正则化手段也不一定能保证避免过拟合问题。</p>
+<p><strong>有点绕，建议看文献</strong></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn">i4mhmh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn/archives/f423d1e.html">https://i4mhmh.cn/archives/f423d1e.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://i4mhmh.cn" target="_blank">全世界的面我都吃一遍</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83/">模型训练</a></div><div class="post_share"><div class="social-share" data-image="/../img/image-20231130222220978.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/archives/a09255bb.html" title="文献阅读笔记-The Best of Two Worlds: Deep Learning-assisted Template Attack"><img class="cover" src="/../img/image-20231204173855771.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">文献阅读笔记-The Best of Two Worlds: Deep Learning-assisted Template Attack</div></div></a></div><div class="next-post pull-right"><a href="/archives/b68bb5eb.html" title="文献阅读笔记-On the Performance of Convolutional Neural Networks for Side-channel Analysis"><img class="cover" src="/../img/image-20231129225406432.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文献阅读笔记-On the Performance of Convolutional Neural Networks for Side-channel Analysis</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/t.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">i4mhmh</div><div class="author-info__description">明年此日青云去,却笑人间举子忙</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/i4mhmh"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/i4mhmh" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:i4mhmh@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Hi！ i4mhmh, A Master Student In Cyberspace Security 💤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">文章信息</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">贡献</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">文章内容</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%87%E6%8B%9F%E5%90%88%E6%AC%A0%E6%8B%9F%E5%90%88"><span class="toc-number">3.1.</span> <span class="toc-text">过拟合欠拟合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BF%87%E6%8B%9F%E5%90%88"><span class="toc-number">3.1.1.</span> <span class="toc-text">过拟合</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%8F%8C%E4%B8%8B%E6%BD%9C"><span class="toc-number">3.2.</span> <span class="toc-text">深度双下潜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BE%A7%E4%BF%A1%E9%81%93%E8%BF%87%E6%8B%9F%E5%90%88"><span class="toc-number">3.3.</span> <span class="toc-text">侧信道过拟合</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">3.4.</span> <span class="toc-text">数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%94%BB%E5%87%BB%E6%AD%A5%E9%AA%A4"><span class="toc-number">3.5.</span> <span class="toc-text">攻击步骤</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">4.</span> <span class="toc-text">实验结果</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ASCAD%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">4.1.</span> <span class="toc-text">ASCAD数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AES-HD%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">4.2.</span> <span class="toc-text">AES_HD数据集</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366993f.html" title="文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis">文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis</a><time datetime="2024-10-16T00:40:42.000Z" title="发表于 2024-10-16 08:40:42">2024-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366992f.html" title="文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis">文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis</a><time datetime="2024-10-12T00:24:46.000Z" title="发表于 2024-10-12 08:24:46">2024-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/b67151df.html" title="第九届密码学竞赛-赛题三WP">第九届密码学竞赛-赛题三WP</a><time datetime="2024-08-26T03:26:11.000Z" title="发表于 2024-08-26 11:26:11">2024-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e8b8df3e.html" title="换服务器啦！">换服务器啦！</a><time datetime="2024-07-23T15:50:58.000Z" title="发表于 2024-07-23 23:50:58">2024-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"><img src="/../img/image-20240606094606014.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"/></a><div class="content"><a class="title" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis">文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis</a><time datetime="2024-06-06T01:44:51.000Z" title="发表于 2024-06-06 09:44:51">2024-06-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/../img/image-20231130222220978.png')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By i4mhmh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="https://beian.miit.gov.cn/" target="_blank"> <img src='/img/ba.png'> 豫ICP备2022016623号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'i4mhmh/i4mhmh.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>AI侧信道攻击中Prediction转换的实现 | 全世界的面我都吃一遍</title><meta name="author" content="i4mhmh,i4mhmh@outlook.com"><meta name="copyright" content="i4mhmh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AI侧信道攻击中Prediction转换的实现">
+<meta property="og:url" content="https://i4mhmh.cn/archives/bfd12eb4.html">
+<meta property="og:site_name" content="全世界的面我都吃一遍">
+<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i4mhmh.cn/img/t.jpeg">
+<meta property="article:published_time" content="2023-11-30T14:30:06.000Z">
+<meta property="article:modified_time" content="2023-12-03T14:38:20.667Z">
+<meta property="article:author" content="i4mhmh">
+<meta property="article:tag" content="小饼干">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i4mhmh.cn/img/t.jpeg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://i4mhmh.cn/archives/bfd12eb4.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AI侧信道攻击中Prediction转换的实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-12-03 22:38:20'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="全世界的面我都吃一遍" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/t.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="全世界的面我都吃一遍"><span class="site-name">全世界的面我都吃一遍</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">AI侧信道攻击中Prediction转换的实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-11-30T14:30:06.000Z" title="发表于 2023-11-30 22:30:06">2023-11-30</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-12-03T14:38:20.667Z" title="更新于 2023-12-03 22:38:20">2023-12-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E5%9F%BA%E4%BA%8E%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E7%9A%84%E4%BE%A7%E4%BF%A1%E9%81%93%E6%94%BB%E5%87%BB/">基于深度学习的侧信道攻击</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="AI侧信道攻击中Prediction转换的实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="e389324c49515f51e220eb93386e5e540e47806d75a12f5860c9847a2dc9519d">ee733bf2dd71e66968255e3fc5c69a3c9426396d8184a3d8debb0e375ed0038347c7c0a87475f41c397f226462cf5fd21c83d4aafe236eabba21cf2ab57258142d498a84a19b3f7d0308bfd5761cc8de1de17fdcb96e6b677f6087bb69735dadfcd2673e9005c0cddd53db832a5ae9ebedc838295bb92eb41e70201da3f15299cd0a057f37e0e204c73da8bd18485618f8c4272a2f82eafc8fb844652d8d0fa48bf6ccc33bbc7ef5822629ad4c7f2cfaf40d0bd51d9c120eae73516697f512e842284ed2930e5b2afed701802736465b6b9e787ee2e3825544ed48ede7f0a05b6f7a407b25d6b8e1316b846681d010ef677ca35a55280b8c48e778613b67b84d8d86f523f7690dc5c902345444b4b9645e04102b4b78f0248a5c2b87e15d7715cad3ba523591ab367c8f9b4b43e91b11cd3fad7b623c36bdf407e524b94c424d530f6820e9be58623d971c0a41a9b6d1c519858593992a867f4a4ab68386abc3cd7478e034658e9e01f1e7811b18af680e4801d555de0edd8bffe9882efc73ba4be8304131d653d5b8900e63496ba5e1c783c19040cf9e7bd1fb993662ae9846f95975d8555503b9c25b7f1c3c1b5c1ce4a1584038e0cf6c5bd9e7e8bb1f3e4de3a11c3f79c22b98d1f8411ea959508b71eed39a9d07555d2b46e978ae8e0e5a41471f8a4594f152ad395884c91c33bb4c21b72b630d9cfa09a68bef80b99d01cb322664611529808ffa405611ecc66b0464a1a41a09b28ffb10735813764bff272435f9dce5fc6b871b9d08bcfe18001129724ff6ffa79dc5be6e6a514ed75ea593706acb9ee1c504dd198fd0a0a35a01dc5dba68d519750e1632c12c4341e5baee18ff09c18ff219833529a4dfb5ed23a8952baaf34ae33f8dfaeef5bb0d928d0e5b9c14ab227fae22e5673a5f9c4be101b4f0c5d149ccb8ca8fde04e16dd0e63478b01559ad1594cd2d0b5400a68893f16b6c41f9e353dcb513ddc2d4ff366b7f9be3a62ef088db51147e93a354fdbff05630657f99c62c33f72e5369ed30d5614a0b3ff1298539e69c3e781a51b7d62211ab7f70c23d85bb5a3d554c2c30f3afe4c87c6d6d1bc38dd6c0e8ef50b0546a653b15d32446bcceb54c3ff257c108c0542ee1698b677ff652d4ef3c5ae0a2ca0e14c3e2cd79211e7279eaeada7e7dd5b6c8a5463e2aab88ada63a631b05b1b244e495b48c15b9ea6f18810001f921b00bfb903acb83380a334b71acc1801b6e1abd0a8c5e06b0d3d1303293f969813c38c546232ec607e7ae3d90cc7c6da9f1b543eb56b2416a8bc01ab1edd57c1802420fe976a03ef7ea983e3069b404cd3d08e9440d61e89480d978c651fcfcfe77f1447099f8ebb57617fa311baa1057bb3d98f7d1b72f0607698037e340788dfe01a6ae68b8376f27ef6217f03ce67e9f4c76239f7c982a7353f07e2d3ed13a40822ba7f1d80e978e03bc05c5130b64edaa37b9b401d2213b12bf25e8adc9aa9eda49c4b8b40a6c8c6f0cbc87fd274e4d1da8cd8e88be6e6c0562da826cc5d2de50ceaf4e568da2ea52e36c2697959a1291c2adf1307bacb6649faaec0e40bc0b72c47e2e9de951d3b5617e4b94864e1e0e4512367f52e5bfee2c0a074a6cf7bb7cba1754f6049aa6fe2ef67305affd8eee2f7b27f55239075c9567ba8b4136ec086d26a5a78197aed8bc6f641b7720f2c4c61537b99aaadeecc4d30fdc9c37660c9e4875df2bad7c7e37d0a50d547961e523c0b71b9ff5d6f2e3820082f80f178d7934e1598e5ec9648b94d84fd4ace3adca97dcc4495c9392868c3390eecef09a9f0985e518be890ff2e6b40544b311f97c7833de720125c3cc43859c54c0cf7174a7a6e88c5fd5027a964de4c9fa2e583966fe80aa8d540500241e912115e483d6feea6ddeef1e441d841be60021e5d926cce2db5effcd7b8407a754dc3f75075d4b1d7e3e2300c75b5e6bdca9a988d3e8f09ebe2426299ef7ce8ac7cc58232b80361101f910e7f683d4f41a30e4698d0087d6de69d762e4e18e8adf65027aed65a0133a025941a238bf757194007ff9da95a6f644af71769b5cae8bc647a0de9160321568d2cd72c5e9a3c5b9160f5bfc79547c762164990a70ed126338a64d447b0c68c313c318ea6b15495a523c145a2ccdc6c0c1226e933fc110a9acc949bec7909321866e88f24a4fb1b6d904fe39d75a1e0c6287ae55ed5b9abe8c698c572dfbec16ffd20a3d5307bf85dcf05d9ab774f595cac95ed422fa4321eddb3544adfff7465495a79a55b281d182a612f3b8ae8d0bde969600b35417eedd568a13604f714bf84f8a155abfed9dc2505a9e642e4d3535f735af2736590ade4c6781d760cc5a9ae30056e25b016651828c5f9e06a78011890c5c1d5e3c3cba39f67700ff64c473fec615390f5f76c457da5b62164a0b75173a9b0161488ea2c98d2ea958132dbced5f1c93faf61f7d15b950c3835309c68d4290d0d071ac8e723907378c1321a5a253c143e58fffc21da88fffceb8673688bc2e85f0aca28cd285a34c26136cb2ac958a111f08fcc286bc3d20682108b49fd5347a78b3167b55ccea3f2638a6c9689bcf1c83b188ab95475364ed1f3cd24b33c33abdca3570f03ac92c9e082c8c1110b9dd126ed9d6459c9af3e2baa63f64a461d9130cefd09c80deafa35161c7e7dd8b938dd521ef131154f53bb3d78df10666a6b0c01a8f957d3d7a2601bc934fdcfda3f93189cd57c9f53abea9792c9618aea965df11b350ebfc37df46f36406485fb7fd5c37bb1a1405523a6405dfe3aaa8e5827ca4afd332a4abdefd4e105c8afbac203d859c3a8226d1198752c2e0186babefb595760ccbac3fdc78934acb623993bb860c6c2f28146cb1c3a07ca7ba4f6283b90e77e88065c0ec707cdba59447d40906ad3feb54cf42b712401fe220539e2af316a2f719acccd7f6f808c9d767edb37e0b49d802eb591f7fa5f4c61775920a3e21d4600a0714be94a2ce6b4b5305b6fde29b51450eebb39b22c9f3557ee03d5e6e6c715e8354289d928f4355f87922fd8ab181e189910494bcf3374558b1122a40e0cbbc7a19a36465bbdb86b490ffc6251909374f790a73ed63c26c63677bfe55c8e8319862870a33869cfa0a70d0e044d7ed21778661a1c1abdb7372f6a50d447110ebc57a243a78bf053be8b9ea8d679b6c42531c1617a4d7e6f70582fcf5d2dd19f66a1fb5cd909082923467b7f3e96a30b261db7280c3035a1eaa824d232091c01f678745622868d0ae1afff7d87e20fa143cd109d9777d4293301775883a866cef5990207c17a462d2b1dd6c38b7c2e2e3185b364d57220f383335aee548e88058736af357b4079b669922c2c5f64d9e3a1dc665a95af5a8c986d72afc6cf4d5933cbf793377172aa3831121a56950f52ae2cadaa633778c632a0fc4719d596ddfba0e714d0c7c4901efe671f0230977c1678c5de03781c7b749b12d18ca9938cb50b9c5f621ac867b5a7109ce1085f95e95a631655a140cb5fcac047a4b67d3fb38e765848ed0a40cc50680aedd81bd6c2f561203caf3fd89899fca4cf6cc44b4da8ae6c65c706a16db3043d4e9f8568cf96bda7ec9de9910761114e1fde6fc496206ccb6aa85666fc2c95d152d68391f5718494d96ef5b45fc052c9810b873e1c7af0c21198268baa357d6cb9f6d5d24674c7e24e7edb06cc51fa9b3b2ffcdf346487812d6058da7f09ca5dbeddd4b9c1b48f05a762798a70398b13c9d3bbfd115d0d6eceffd8251bb38890c78f3cb956c0c648b3f3a47b021d5b002af797af44f9d3aac54b0dd6745f593b110d2b56e06a127830e9a1b1701499841d4e73bf4dc7355671a5f3e6f7b1ce58c4e85c5d3a4face43f9a5c10f22917d5630ae71521011254701aa41bfb6b7fb846f3ea3c274677722d6a33755b325976fd213474c10f53ae8dcab5ff62188833bd2d077e9783aea898c838c875ab311f6fda206962aa0274c21da6f62caf287010c65fa8a9066ea7a44dcaa43f355348c2f1c490c488c1c95771bccfd98765dca9aafccd6c321e2e887381b9f59fb9234ebd60e1cd23427dc99dd68f6e0e66384ea6f65e052cdff8fa9f081e594a67c039dd6e0857281ecc377fba9cb639b935c91dba9157f8d2fa9c4ec5fe171ac69407b281cc6e036e886f41b9f1c7fcd3c2e3a9510947b2af231e0c50985e77a24cb8499259145c384ba60a0000d67c9fca5fc56f8b76baae7c0ca3adcd1fa252a12370793436f3bf890ae252b311e24657103d0f8ff426f2b1869843c6e1a844c12204c5ceb0c8b0ba63f60deff07a5204285dcef4909a66fba01b7c98dd1d8ef546cbdf163663b83b5e6f7b6e67c3101ab8fb9188469eb80a1dbae5c872e017cba45d8d629ad9a740bb73bc18bb1797d93f7</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-blink">
+      <input class="hbe hbe-input-field hbe-input-field-blink" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-blink" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-blink" data-content="这里需要密码,Pay for me !!!.">这里需要密码,Pay for me !!!.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn">i4mhmh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn/archives/bfd12eb4.html">https://i4mhmh.cn/archives/bfd12eb4.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://i4mhmh.cn" target="_blank">全世界的面我都吃一遍</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%B0%8F%E9%A5%BC%E5%B9%B2/">小饼干</a></div><div class="post_share"><div class="social-share" data-image="/img/t.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/archives/b68bb5eb.html" title="文献阅读笔记-On the Performance of Convolutional Neural Networks for Side-channel Analysis"><img class="cover" src="/../img/image-20231129225406432.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">文献阅读笔记-On the Performance of Convolutional Neural Networks for Side-channel Analysis</div></div></a></div><div class="next-post pull-right"><a href="/archives/c4b22as16.html" title="文献阅读笔记-CDAE: Towards Empowering Denoising in Side-Channel Analysis"><img class="cover" src="/../img/cdae.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">文献阅读笔记-CDAE: Towards Empowering Denoising in Side-Channel Analysis</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/e8b8df3e.html" title="换服务器啦！"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-07-23</div><div class="title">换服务器啦！</div></div></a></div><div><a href="/archives/cfed1ff3.html" title="自定义侧信道攻击中的网格搜索超参数方法"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-11-03</div><div class="title">自定义侧信道攻击中的网格搜索超参数方法</div></div></a></div><div><a href="/archives/e6c2944b.html" title="侧信道攻击对抗措施总结与实现"><img class="cover" src="/../img/image-20240102195953134.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-04-22</div><div class="title">侧信道攻击对抗措施总结与实现</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/t.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">i4mhmh</div><div class="author-info__description">明年此日青云去,却笑人间举子忙</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/i4mhmh"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/i4mhmh" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:i4mhmh@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Hi！ i4mhmh, A Master Student In Cyberspace Security 💤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A0%94%E7%A9%B6%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">研究背景</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366993f.html" title="文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis">文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis</a><time datetime="2024-10-16T00:40:42.000Z" title="发表于 2024-10-16 08:40:42">2024-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366992f.html" title="文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis">文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis</a><time datetime="2024-10-12T00:24:46.000Z" title="发表于 2024-10-12 08:24:46">2024-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/b67151df.html" title="第九届密码学竞赛-赛题三WP">第九届密码学竞赛-赛题三WP</a><time datetime="2024-08-26T03:26:11.000Z" title="发表于 2024-08-26 11:26:11">2024-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e8b8df3e.html" title="换服务器啦！">换服务器啦！</a><time datetime="2024-07-23T15:50:58.000Z" title="发表于 2024-07-23 23:50:58">2024-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"><img src="/../img/image-20240606094606014.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"/></a><div class="content"><a class="title" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis">文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis</a><time datetime="2024-06-06T01:44:51.000Z" title="发表于 2024-06-06 09:44:51">2024-06-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/default.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By i4mhmh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="https://beian.miit.gov.cn/" target="_blank"> <img src='/img/ba.png'> 豫ICP备2022016623号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'i4mhmh/i4mhmh.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

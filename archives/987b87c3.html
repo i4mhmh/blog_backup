@@ -1,0 +1,206 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>华为杯-通用web漏洞检测与验证 | 全世界的面我都吃一遍</title><meta name="author" content="i4mhmh,i4mhmh@outlook.com"><meta name="copyright" content="i4mhmh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="华为杯-通用web漏洞检测与验证">
+<meta property="og:url" content="https://i4mhmh.cn/archives/987b87c3.html">
+<meta property="og:site_name" content="全世界的面我都吃一遍">
+<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i4mhmh.cn/img/t.jpeg">
+<meta property="article:published_time" content="2023-06-16T02:48:11.000Z">
+<meta property="article:modified_time" content="2023-10-16T07:40:17.345Z">
+<meta property="article:author" content="i4mhmh">
+<meta property="article:tag" content="安全开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i4mhmh.cn/img/t.jpeg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://i4mhmh.cn/archives/987b87c3.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '华为杯-通用web漏洞检测与验证',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-10-16 15:40:17'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="全世界的面我都吃一遍" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/t.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="全世界的面我都吃一遍"><span class="site-name">全世界的面我都吃一遍</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">华为杯-通用web漏洞检测与验证</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-06-16T02:48:11.000Z" title="发表于 2023-06-16 10:48:11">2023-06-16</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-16T07:40:17.345Z" title="更新于 2023-10-16 15:40:17">2023-10-16</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/">网络安全</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="华为杯-通用web漏洞检测与验证"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="11715e4c47d05788d0d0b6d39e857935e2865e183e3b586719c106d732ff4375">ee733bf2dd71e66968255e3fc5c69a3c048225b1276a78af7c96d874f4f6fbb8e08cdb2cdf7e0fe240ed1c2761d4a80b7bf338f0cfbd020f5ee6f7234f7390791f9c16e003e8e4a750064eb7f40b021a99cfe827c4fe31471e772be34d0058cc909276c87ef05d266e6b9b145c20eb100655cdf28a5f41f3308178dbb7e058b0d1dd37f9bea6c0ffea3d0c815de0a660cf1022aa30dfc12a18fdd65e5428b4e37b1c9cd542168e9b40442925c1831a6da96a4490ebb1f63e169e9327b7061e0d956f4859f206cc7d51be67e7d870a83b38ecc1a07d9ffbf4b7764a4f4369ac5557143aa499d749680ff6a59cc07afbbdd4b64014e946aeb26e42c9f71942e20b5dfba59f2e42e10096c37b8f0123b2454679df650f0d31477afdb193e31e1affecbdd059be453a21b82423385408ae8bf4f8b0d19c17f376f087f264d6cc1f35a16596d0d6930399a3c55d3b6f5d2e5cf79b75e8926b7171b688984744051165368ffed72bc0c3e0d4527ead34e1a9a1c04128c06342b3cdb448fdc3cb028a6c750d63b1e44e8d20df7c1030831088a5ba8bfe7a610c0b8fefd525c94b6cecefa5d8d586f2a83a18428860833777c86f22cdf9a7094e6c5b0d36f622fafba47522f08dfaadcf081ae65e7e93942d264cb2a3369f4a4780815fc27896a7c27746a1f6814a266bde758de0fce614c7a797c92f5a40f1e5f72db09f11aaae7cb4a708217fab9cd895594600586f59d06b2900034eee3099b2e48dc50879c5845d6f013cb680f534840253b7ce6443ba7ac226cd7ce28296d863623ec93da57b7735ca594004e6a3143ed20a2b761a837b1c0a35eed9ebc2caf5db63ddf029935874dd61aabab199f123305f3c907dd54238868f59a63cc945005ac66036de2f05532a40e66a7151b2510f4fea901ff4717a669f47919525d9c63a23b94cabdb038ffa74fff7be8917e673b9d60b8aa3a8c50e6c500c48194cd6a3a35658c74ec6017d0c0432e96999bc4d70dc964242e701f9dd0fdee7e07524a3efb8db8c8fc6d60d75fa96abc0debeb6105a8b09ee63b41d250350be9fa50feb3a113d6812ecc551a5b7400a815839cc91307c76635d7ba4b2160fc9091c8c302abf4c4ebbf41ba73e5da9abf9da621dd2ffa32a87de5784043c80a98305d566ce3b366375610807d3bebec91d504c3116db34c8ae2727c7756540750704498b850364a64015cc5f80b3e98ef73b2b04a0a07358e652d59ab1921fe72f909b056bf345ed22c121a7f94f83da1f0250ad758ad78a6acff08ba02409eb5be21b74dc114c40f34b288b2c7cd540e3b778336fba08c5405cdd5a2b07b9654ef316a4a214206f0b5bf1c260555d0bdd55bc6e7872fc186edfd389539ca718fa033cfee589702cc02a6422f1101e659c96d481d97f41cfd1336e4cb0e4ed4a6c5a922acde461641e38729613c1818bfa6a1bff930d9f7c7437fd47ec50d46a8bd61ccbaa822ee8abab02a88a3db2acae4ba14998a0672e3d7eeccb85da2b11df9acb0b3bb62788590a233bd2d9cdb7f48607716022ef57487d36ae04468fae510c94224fa10a4163811049d79818b9c6f0d9562953cb2bd945060308c2408f240d7fe8fec7fbdba9592ebfa498f2702d9f8378f19a59e0f5362fb4bf61456ca4f0f450d751baa8cd8a3ef16f3d67f58162800e95a37a57f6620c3de154b0721ecce8755460ca305c878032e417640c6cd95dfad79bd1a90909e358e3386a30a97717a95c21e2c40e5709a158f5208d50db15b516809cce5013d014d0aaf64860825a6f53a7255114b628b01287588182531fdb49fa9b86eeecc94b02ca98e4284757ceb300fc9061e2acc9f65d9da3ba84f099d4a4f82561b4a0fa37732659759111272175de1854747b9f4e6547be5b4c1309208891dcb7297fff980dd887487e90e481deef6d854874f4fbf81a5379bc019d623695bb1b5134b59b15f76b72116be4305368e7bae2828e4589d2c1fa577dab6066546995f3040dac7ad574e148e8a3e5608e517f182594a06962db01ccbca9ced10278a5ff26d18b4e97dbcd3918a976745f9ee8eb3d06be3b0f9e25f67633682af8fa3427c706f652a572637e5ca89782ed6b318a4174e3bc7844922008af8461a5132571c925056cb1cb0e00639ba55f732e13f1abcd41ef4a07459c16845f37e92d8da42b8da04261e84e2a1fb518f086d905a48a59bad4c79e2b594733dbafc6786c63a886d922228d1e980ec60b4fe25e30661004e4d3df96e4ffb2ac3c9e430854d33978b8d146a0d497dc2e3373d4223b77be235bae88ee91e641158314941a91dd08a8ca2c1e4fe541e5ee858fcc4657c3b9c7b83fe43a9649ffd261b9a4517bdc642d5667a233653237fbf81d961e90afc7b020fc848e0717911cd6693e35f3f8efab50b25f0b92a635120a8924bb60e48d9aab7d457c8aa4cbde140cfbc1ed7e8fc796c77ea1420a3ba85720dd0e966daf2b9d81a85bc529375a65f96e24cdd10fa352d673993528e272505981c9c07d34f6f5e468676685a448ddb19daacbf186265ffa95a9a0455ab38e88d9598c22b7a2f2ec7833688ec1d874fbc1cfd900be56e83471c886d5163c75258e5bdaa4538214a32c01b8f23f32f8b4bdb3a445794ac721376e0f3caf1fb536e75f98f1f3051973960d3c2df101bcb5e12b44b970e57cb0747d9e11bc54004e25e92695cae8b167563e9b483b70bdc339cdc8e0fc3e01a04858fc13f8e440395ee714ad49419443a2b45f8e0b6ed59182e60fbeedf3b7db2fb945b5a694fc2da41d8cc3be9f51bceb163eaf10a5e5c9620070c6f4058115f521081ea842b50f07bda4049a5c1652cee7a31a8aa884403cda54fa7a3abde89a928436ee04374d768da8b4c5feab38709abd6d8cc8a00247f7e84425bc43a6d59136deb1181ee30a9db48065b40e89d03a5af909f7139f662ec99548b387d1dd44d10793a666adf41b2e0e8a5ff55224d6497f8f3a235494556258374ca47e6df1171054af26a62692b39d0a4056980a7bd5f4e6a0945454c82c3f8d37d1d29db9b50502eafe473a3a6cdd0d61d03ea9b032204650a0f45dafca1b697062c92241bdb883654f14e51308111e99036de99d5fcfb3251074cf93ba57959db5dce13619a556db38f4722db787457f385dd90522f4e53340a14110ab55499731dba9c594a94d2b50935c89d3a46cf26bc2d63e0e9e5f27732b7c9739e673f9f9292dc821846fa289a9bbbaf21fa38d1f240c76156c124586df92a1afa835dc947146d40d0e8943c48ec62e3dc30509b2369e8c60f5804bd7b05fb4a46d56f3ecf30f47bd1445312397d8ebe73c78a1c5259ec73bf278c6d2105be33a4af0373d7c58d505b00a34100158e107cbf86201b6df9ac3c8244d614fe35b22d0aa1deebf59948e1db1f8f79d1969679572896f02b7e2bd88cb949274315364aeba83bdf916b17ebd1e832c367aa29a4f2e9c0db8a19f1a64eac47e78823e39924bf1a9162040988774ca6600335c1376f8f73255b8b4b0e95af63e0cb33812150988109a7b5ae9448dc9ec3dddea2064b6a6b560d2c12bfcef5acdcb20d8515d2b7ab0879c4eb487acf3ee41d7a847ed0d2a35ef9443b3c20f247f80cc618d5a46496a0df73e9c7855b24eee3c2086b186235ef4a0bf1c5243c146ae553552f2b63c3eceaf8710a81ae1a2d1a5b6f3e23604e4425a01c01ec3eef65ff301be62b2d39ff713cec1fa3f49f332d8fc72b893ed281622ecc1c5d6a49daf71d6dc244c6b6b9f3d49f9dd8b8e9803d07831b4eed1a1c77f5521cf32e273796fdf3535a7c3b506edbb3a88e6e19e941f45c03d6d5223a6ab75c33d7a3d99506b74a1e5d543e85f257b9526aaafdf349ea55018ed2d91b91088c1242cb04179b9e36cb95e99862f8378d97daae410038b0796c5ca696eeda2ea5fe66a17e4f3409acdb04ec584e5f9cea86b48e68e5a3d0cfed010638c2399a190f1e375b9c4babbbb05c44599b47a4df123582f9edeebe3eadd2efe95bc24ad94749102b7f960b09442389122f31272e913e314ea8e2d74903ae0aa9d68b00a6d9439889fbb69fe71cd1b17cca4853ae669ed44f0a7929d46ce29d02879cee6858ee68234cd81b3ea04d1edfcbe665adf5e1e1b2d8b5e879453f2d05ee50e03b27055cd42188d526782d7856bf1f2d7746d4ab4c8f3fd4469dda5ec374cd76f56730db4dedf4cd67124ef0738e0e786d7baa55f979eab6f2ba67ba81dab17835bc84ed343ac7ca5b671a080402b4553f387a1b244fc4ff1366b1f</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-blink">
+      <input class="hbe hbe-input-field hbe-input-field-blink" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-blink" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-blink" data-content="这里需要密码,Pay for me !!!.">这里需要密码,Pay for me !!!.</span>
+      </label>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css"></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn">i4mhmh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn/archives/987b87c3.html">https://i4mhmh.cn/archives/987b87c3.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://i4mhmh.cn" target="_blank">全世界的面我都吃一遍</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E5%AE%89%E5%85%A8%E5%BC%80%E5%8F%91/">安全开发</a></div><div class="post_share"><div class="social-share" data-image="/img/t.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/archives/16233d99.html" title="文献阅读笔记-Deep Learning based Side-Channel Attack-a New Profiling Methodology based on Multi-Label Classification"><img class="cover" src="https://s3.bmp.ovh/imgs/2023/03/16/94920eebea0720e2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">文献阅读笔记-Deep Learning based Side-Channel Attack-a New Profiling Methodology based on Multi-Label Classification</div></div></a></div><div class="next-post pull-right"><a href="/archives/ccbf847b.html" title="猜测熵"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">猜测熵</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/archives/5fdb2894.html" title="哨兵蓝队内网-蜜罐-监控 开发全纪录"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-05-29</div><div class="title">哨兵蓝队内网-蜜罐-监控 开发全纪录</div></div></a></div></div></div><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/t.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">i4mhmh</div><div class="author-info__description">明年此日青云去,却笑人间举子忙</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/i4mhmh"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/i4mhmh" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:i4mhmh@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Hi！ i4mhmh, A Master Student In Cyberspace Security 💤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content toc-div-class" style="display:none"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">开发</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8C%87%E7%BA%B9%E8%AF%86%E5%88%AB%EF%BC%88%E6%9A%82%E6%97%B6%E6%B2%A1%E5%86%99%EF%BC%89"><span class="toc-number">2.1.</span> <span class="toc-text">指纹识别（暂时没写）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E9%81%8D%E5%8E%86"><span class="toc-number">2.2.</span> <span class="toc-text">目录遍历</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95%E6%94%B6%E9%9B%86-%E6%89%AB%E6%8F%8F"><span class="toc-number">2.3.</span> <span class="toc-text">目录收集&#x2F;扫描</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%BB%E6%84%8F%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="toc-number">2.4.</span> <span class="toc-text">任意文件上传</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB-FileInclusion"><span class="toc-number">2.5.</span> <span class="toc-text">文件包含(FileInclusion)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#XXE"><span class="toc-number">2.6.</span> <span class="toc-text">XXE</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366993f.html" title="文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis">文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis</a><time datetime="2024-10-16T00:40:42.000Z" title="发表于 2024-10-16 08:40:42">2024-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366992f.html" title="文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis">文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis</a><time datetime="2024-10-12T00:24:46.000Z" title="发表于 2024-10-12 08:24:46">2024-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/b67151df.html" title="第九届密码学竞赛-赛题三WP">第九届密码学竞赛-赛题三WP</a><time datetime="2024-08-26T03:26:11.000Z" title="发表于 2024-08-26 11:26:11">2024-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e8b8df3e.html" title="换服务器啦！">换服务器啦！</a><time datetime="2024-07-23T15:50:58.000Z" title="发表于 2024-07-23 23:50:58">2024-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"><img src="/../img/image-20240606094606014.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"/></a><div class="content"><a class="title" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis">文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis</a><time datetime="2024-06-06T01:44:51.000Z" title="发表于 2024-06-06 09:44:51">2024-06-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/default.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By i4mhmh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="https://beian.miit.gov.cn/" target="_blank"> <img src='/img/ba.png'> 豫ICP备2022016623号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'i4mhmh/i4mhmh.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>

